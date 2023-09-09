@@ -22,7 +22,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   private getBook() {
-    const bookId = Number(this.route.snapshot.paramMap.get('id'));
+    const bookId = parseInt(this.route.snapshot.paramMap.get('id') ?? '');
     this.bookService.getBook(bookId).subscribe((book) => (this.book = book));
   }
 

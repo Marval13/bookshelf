@@ -1,0 +1,38 @@
+<h2>
+  <span *ngIf="book">{{book.title}}</span>
+  <span *ngIf="!book">Nuovo libro</span>
+</h2>
+<form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+  <p>
+    <label for="title">Titolo</label>
+    <input
+      type="text"
+      id="title"
+      formControlName="title"
+      name="title"
+      required
+    />
+  </p>
+  <p>
+    <label for="author">Autore</label>
+    <input
+      type="text"
+      id="author"
+      formControlName="author"
+      name="author"
+      required
+    />
+  </p>
+  <p>
+    <label for="isbn">ISBN</label>
+    <input type="text" id="isbn" formControlName="isbn" name="isbn" required />
+  </p>
+  <p>
+    <label for="summary">Trama</label>
+    <input type="text" id="summary" formControlName="summary" name="summary" />
+  </p>
+  <div class="buttons">
+    <button type="submit" [disabled]="!bookForm.valid">Salva</button>
+    <button (click)="location.back()">Annulla</button>
+  </div>
+</form>

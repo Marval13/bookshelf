@@ -23,13 +23,13 @@ const USERS: User[] = [
   providedIn: 'root',
 })
 export class UserService {
-  user: User | null = null;
-  // user: User | null = {
-  //   id: 1,
-  //   name: 'David',
-  //   surname: 'Barozzini',
-  //   email: 'dbaro13@gmail.com',
-  // };
+  // user: User | null = null;
+  user: User | null = {
+    id: 1,
+    name: 'David',
+    surname: 'Barozzini',
+    email: 'dbaro13@gmail.com',
+  };
 
   constructor(private router: Router) {}
 
