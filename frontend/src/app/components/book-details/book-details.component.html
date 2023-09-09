@@ -1,0 +1,36 @@
+<div class="container">
+  <div *ngIf="book">
+    <h2>{{ book.title }}</h2>
+    <table>
+      <tr>
+        <th>Titolo</th>
+        <td>{{ book.title }}</td>
+      </tr>
+      <tr>
+        <th>Autore</th>
+        <td>{{ book.author }}</td>
+      </tr>
+      <tr>
+        <th>ISBN</th>
+        <td>{{ book.isbn }}</td>
+      </tr>
+      <tr>
+        <th>Trama</th>
+        <td>{{ book.summary }}</td>
+      </tr>
+      <tr>
+        <th>Letture</th>
+        <td>
+          {{ book.readings }}
+          <button class="button-plus" (click)="addReading()">+</button>
+        </td>
+      </tr>
+    </table>
+    <div class="buttons">
+      <button>Modifica</button>
+      <button (click)="deleteBook()">Elimina</button>
+    </div>
+  </div>
+
+  <div *ngIf="!book">Libro non trovato</div>
+</div>

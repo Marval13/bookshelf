@@ -1,0 +1,19 @@
+.container {
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 30px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  margin: 10px;
+}
+
+button {
+  padding: 5px;
+}

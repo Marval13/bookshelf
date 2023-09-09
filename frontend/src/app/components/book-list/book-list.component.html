@@ -1,0 +1,11 @@
+<div class="container">
+  <h2>I tuoi libri</h2>
+  <ul>
+    <li *ngFor="let book of books">
+      <a routerLink="/book/{{ book.id }}">
+        <strong>{{ book.title }} </strong>
+        <em>({{ book.author }})</em>
+      </a>
+    </li>
+  </ul>
+</div>
