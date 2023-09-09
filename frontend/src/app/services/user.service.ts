@@ -1,37 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 
 import { User } from '../interfaces/user';
-
-const USERS: User[] = [
-  {
-    id: 1,
-    name: 'David',
-    surname: 'Barozzini',
-    email: 'dbaro13@gmail.com',
-  },
-  {
-    id: 2,
-    name: 'Pinco',
-    surname: 'Pallo',
-    email: 'pallopinco@gmail.com',
-  },
-];
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  // user: User | null = null;
-  user: User | null = {
-    id: 1,
-    name: 'David',
-    surname: 'Barozzini',
-    email: 'dbaro13@gmail.com',
-  };
+  user: User | null = null;
+  // user: User | null = {
+  //   id: 1,
+  //   name: 'David',
+  //   surname: 'Barozzini',
+  //   email: 'dbaro13@gmail.com',
+  // };
 
-  constructor(private router: Router) {}
+  private baseUrl = 'http://localhost:8080';
+
+  constructor(private router: Router, private http: HttpClient) {}
 
   login(userId: User) {
     this.user = userId;
@@ -44,6 +32,12 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return of(USERS);
+    return this.http.get<User[]>(`${this.baseUrl}/user`).pipe(
+      tap(() => console.log('fetched users')),
+      catchError((err) => {
+        console.log('error fetching users', err);
+        return of([]);
+      })
+    );
   }
 }

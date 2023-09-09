@@ -37,14 +37,31 @@ router.post("/", (req: Request, res: Response) => {
   if (!user) {
     return res.status(401).end();
   }
-  const newTitle = req.body.title;
-  if (!newTitle) {
+  const title = req.body.title;
+  if (!title) {
+    return res.status(400).end();
+  }
+  const author = req.body.author;
+  if (!author) {
+    return res.status(400).end();
+  }
+  const isbn = req.body.isbn;
+  if (!isbn) {
+    return res.status(400).end();
+  }
+  const summary = req.body.summary;
+  if (!summary) {
     return res.status(400).end();
   }
   const newBook = {
     id: Math.max(...books.map((b) => b.id)) + 1,
-    title: req.body.title,
+    title,
+    author,
+    isbn,
+    summary,
+    readings: 0,
     user_id: user.id,
+    created_at: Date.now(),
     deleted_at: null,
   };
   books.push(newBook);
@@ -65,11 +82,22 @@ router.patch("/:id", (req: Request, res: Response) => {
   if (!book) {
     return res.status(404).end();
   }
-  const newTitle = req.body.title;
-  if (!newTitle) {
-    return res.status(400).end();
+  const title = req.body.title;
+  if (title) {
+    book.title = title;
   }
-  book.title = newTitle;
+  const author = req.body.author;
+  if (author) {
+    book.author = author;
+  }
+  const isbn = req.body.isbn;
+  if (isbn) {
+    book.isbn = isbn;
+  }
+  const summary = req.body.summary;
+  if (summary) {
+    book.summary = summary;
+  }
   res.status(200).json(book);
 });
 
@@ -88,6 +116,24 @@ router.delete("/:id", (req: Request, res: Response) => {
     return res.status(404).end();
   }
   book.deleted_at = Date.now();
+  res.status(200).json(book);
+});
+
+router.patch("/:id/read", (req: Request, res: Response) => {
+  const user = users.find((u) => u.id == req.userId);
+  if (!user) {
+    return res.status(401).end();
+  }
+  const book = books.find(
+    (b) =>
+      b.id == parseInt(req.params.id) &&
+      b.user_id == user.id &&
+      b.deleted_at == null
+  );
+  if (!book) {
+    return res.status(404).end();
+  }
+  book.readings++;
   res.status(200).json(book);
 });
 
