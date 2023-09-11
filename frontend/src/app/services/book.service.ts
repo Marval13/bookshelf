@@ -1,8 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { Book } from '../interfaces/book';
 import { UserService } from './user.service';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +18,9 @@ export class BookService {
         headers: { Authorization: `Bearer ${this.userService.user?.id}` },
       })
       .pipe(
-        tap(() => console.log('fetched books')),
+        // tap(() => console.log('fetched books')),
         catchError((err) => {
-          console.log('error fetching books', err);
+          console.error('error fetching books', err);
           return of([]);
         })
       );
@@ -32,9 +32,9 @@ export class BookService {
         headers: { Authorization: `Bearer ${this.userService.user?.id}` },
       })
       .pipe(
-        tap(() => console.log(`fetched book ${bookId}`)),
+        // tap(() => console.log(`fetched book ${bookId}`)),
         catchError((err) => {
-          console.log(`error fetching book ${bookId}`, err);
+          console.error(`error fetching book ${bookId}`, err);
           return of(undefined);
         })
       );
@@ -55,9 +55,9 @@ export class BookService {
         }
       )
       .pipe(
-        tap(() => console.log(`created book`)),
+        // tap(() => console.log(`created book`)),
         catchError((err) => {
-          console.log(`error creating book`, err);
+          console.error(`error creating book`, err);
           return of(undefined);
         })
       );
@@ -79,9 +79,9 @@ export class BookService {
         }
       )
       .pipe(
-        tap(() => console.log(`edited book`)),
+        // tap(() => console.log(`edited book`)),
         catchError((err) => {
-          console.log(`error editing book ${bookId}`, err);
+          console.error(`error editing book ${bookId}`, err);
           return of(undefined);
         })
       );
@@ -93,9 +93,9 @@ export class BookService {
         headers: { Authorization: `Bearer ${this.userService.user?.id}` },
       })
       .pipe(
-        tap(() => console.log(`deleted book`)),
+        // tap(() => console.log(`deleted book`)),
         catchError((err) => {
-          console.log(`error deleting book ${bookId}`, err);
+          console.error(`error deleting book ${bookId}`, err);
           return of(undefined);
         })
       );
@@ -111,9 +111,9 @@ export class BookService {
         }
       )
       .pipe(
-        tap(() => console.log(`read book`)),
+        // tap(() => console.log(`read book`)),
         catchError((err) => {
-          console.log(`error reading book ${bookId}`, err);
+          console.error(`error reading book ${bookId}`, err);
           return of(undefined);
         })
       );

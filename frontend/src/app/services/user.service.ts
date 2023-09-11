@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import { EMPTY, Observable, catchError, of, tap } from 'rxjs';
-
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, catchError, of } from 'rxjs';
 import { User } from '../interfaces/user';
 
 @Injectable({
@@ -32,9 +31,9 @@ export class UserService {
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/user`).pipe(
-      tap(() => console.log('fetched users')),
+      // tap(() => console.log('fetched users')),
       catchError((err) => {
-        console.log('error fetching users', err);
+        console.error('error fetching users', err);
         return of([]);
       })
     );
