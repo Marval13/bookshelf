@@ -1,14 +1,30 @@
 name: "bookshelf-backend"
 
 services:
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    networks:
+      - net
+
   db:
     image: postgres
     restart: always
-    ports:
-      - "5432:5432"
-    env_file:
-      - .env
-    # environment:
-    #   POSTGRES_USER: user
-    #   POSTGRES_PASSWORD: password
-    #   POSTGRES_DB: testdb
+    env_file: .env
+    healthcheck:
+      test: pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 60s 
+    networks:
+      - net
+
+networks:
+  net:
