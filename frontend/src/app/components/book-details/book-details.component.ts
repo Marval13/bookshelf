@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from 'src/app/interfaces/book';
 import { BookService } from 'src/app/services/book.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-book-details',
@@ -13,11 +14,15 @@ export class BookDetailsComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
+    private userService: UserService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    if (!this.userService.user) {
+      this.router.navigate(['/login']);
+    }
     this.getBook();
   }
 
@@ -39,7 +44,8 @@ export class BookDetailsComponent implements OnInit {
     if (!this.book) {
       return;
     }
-    this.bookService.deleteBook(this.book.id).subscribe();
-    this.router.navigate(['/book']);
+    this.bookService.deleteBook(this.book.id).subscribe(() => {
+      this.router.navigate(['/book']);
+    });
   }
 }

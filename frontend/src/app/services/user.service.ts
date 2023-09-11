@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, catchError, of, tap } from 'rxjs';
 
-import { User } from '../interfaces/user';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -19,16 +18,16 @@ export class UserService {
 
   private baseUrl = 'http://localhost:8080';
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  login(userId: User) {
-    this.user = userId;
-    this.router.navigate(['/book']);
+  login(user: User): Observable<void> {
+    this.user = user;
+    return of();
   }
 
-  logout() {
+  logout(): Observable<void> {
     this.user = null;
-    this.router.navigate(['/login']);
+    return of();
   }
 
   getUsers(): Observable<User[]> {

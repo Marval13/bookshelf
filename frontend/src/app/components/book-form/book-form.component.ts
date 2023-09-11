@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from 'src/app/interfaces/book';
 import { BookService } from 'src/app/services/book.service';
+import { UserService } from 'src/app/services/user.service';
 
 interface BookData {
   title: string;
@@ -30,10 +31,14 @@ export class BookFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public location: Location,
-    private bookService: BookService
+    private bookService: BookService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
+    if (!this.userService.user) {
+      this.router.navigate(['/login']);
+    }
     this.getBook();
     if (this.book) {
       this.bookForm.patchValue(this.book);
@@ -48,7 +53,6 @@ export class BookFormComponent implements OnInit {
     this.bookService.getBook(parseInt(bookId)).subscribe((book) => {
       if (!book) {
         this.router.navigate(['/book']);
-        return;
       }
       this.book = book;
     });
@@ -59,9 +63,6 @@ export class BookFormComponent implements OnInit {
       return;
     }
 
-    if (!this.bookForm.valid) {
-      return;
-    }
     if (this.book) {
       this.bookService
         .editBook(
