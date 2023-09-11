@@ -1,10 +1,12 @@
 import { Request, Response, Router } from "express";
 
-import users from "../db/users";
+import { AppDataSource } from "../db/data-source";
+import { User } from "../db/entities/User";
 
 const router = Router();
 
-router.get("/", (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
+  const users = await AppDataSource.manager.find(User);
   res.status(200).json(users);
 });
 

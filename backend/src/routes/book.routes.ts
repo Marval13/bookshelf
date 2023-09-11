@@ -1,39 +1,45 @@
 import { Request, Response, Router } from "express";
 
-import books from "../db/books";
-import users from "../db/users";
+import { AppDataSource } from "../db/data-source";
+import { Book } from "../db/entities/Book";
+
+import { User } from "../db/entities/User";
 
 const router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-  const user = users.find((u) => u.id == req.userId);
+router.get("/", async (req: Request, res: Response) => {
+  const user = await AppDataSource.manager.findOne(User, {
+    where: { id: req.userId },
+    relations: { books: true },
+  });
+
   if (!user) {
     return res.status(401).end();
   }
-  res
-    .status(200)
-    .json(books.filter((b) => b.user_id == user.id && b.deleted_at == null));
+  res.status(200).json(user.books);
 });
 
-router.get("/:id", (req: Request, res: Response) => {
-  const user = users.find((u) => u.id == req.userId);
+router.get("/:id", async (req: Request, res: Response) => {
+  const user = await AppDataSource.manager.findOne(User, {
+    where: { id: req.userId },
+    relations: { books: true },
+  });
   if (!user) {
     return res.status(401).end();
   }
-  const book = books.find(
-    (b) =>
-      b.id == parseInt(req.params.id) &&
-      b.user_id == user.id &&
-      b.deleted_at == null
-  );
+  const book = await AppDataSource.manager.findOne(Book, {
+    where: { id: parseInt(req.params.id), user },
+  });
   if (!book) {
     return res.status(404).end();
   }
   res.status(200).json(book);
 });
 
-router.post("/", (req: Request, res: Response) => {
-  const user = users.find((u) => u.id == req.userId);
+router.post("/", async (req: Request, res: Response) => {
+  const user = await AppDataSource.manager.findOne(User, {
+    where: { id: req.userId },
+  });
   if (!user) {
     return res.status(401).end();
   }
@@ -49,36 +55,27 @@ router.post("/", (req: Request, res: Response) => {
   if (!isbn) {
     return res.status(400).end();
   }
-  const summary = req.body.summary;
-  if (!summary) {
-    return res.status(400).end();
-  }
-  const newBook = {
-    id: Math.max(...books.map((b) => b.id)) + 1,
-    title,
-    author,
-    isbn,
-    summary,
-    readings: 0,
-    user_id: user.id,
-    created_at: Date.now(),
-    deleted_at: null,
-  };
-  books.push(newBook);
-  res.status(200).json(newBook);
+
+  const book = new Book();
+  book.title = title;
+  book.author = author;
+  book.isbn = isbn;
+  book.summary = req.body.summary ?? "";
+  book.user = user;
+  res.status(200).json(await AppDataSource.manager.save(book));
 });
 
-router.patch("/:id", (req: Request, res: Response) => {
-  const user = users.find((u) => u.id == req.userId);
+router.patch("/:id", async (req: Request, res: Response) => {
+  const user = await AppDataSource.manager.findOne(User, {
+    where: { id: req.userId },
+    relations: { books: true },
+  });
   if (!user) {
     return res.status(401).end();
   }
-  const book = books.find(
-    (b) =>
-      b.id == parseInt(req.params.id) &&
-      b.user_id == user.id &&
-      b.deleted_at == null
-  );
+  const book = await AppDataSource.manager.findOne(Book, {
+    where: { id: parseInt(req.params.id), user },
+  });
   if (!book) {
     return res.status(404).end();
   }
@@ -98,43 +95,40 @@ router.patch("/:id", (req: Request, res: Response) => {
   if (summary) {
     book.summary = summary;
   }
-  res.status(200).json(book);
+  res.status(200).json(await AppDataSource.manager.save(book));
 });
 
-router.delete("/:id", (req: Request, res: Response) => {
-  const user = users.find((u) => u.id == req.userId);
+router.delete("/:id", async (req: Request, res: Response) => {
+  const user = await AppDataSource.manager.findOne(User, {
+    where: { id: req.userId },
+  });
   if (!user) {
     return res.status(401).end();
   }
-  const book = books.find(
-    (b) =>
-      b.id == parseInt(req.params.id) &&
-      b.user_id == user.id &&
-      b.deleted_at == null
-  );
+  const book = await AppDataSource.manager.findOne(Book, {
+    where: { id: parseInt(req.params.id), user },
+  });
   if (!book) {
     return res.status(404).end();
   }
-  book.deleted_at = Date.now();
-  res.status(200).json(book);
+  res.status(200).json(await AppDataSource.manager.softRemove(book));
 });
 
-router.patch("/:id/read", (req: Request, res: Response) => {
-  const user = users.find((u) => u.id == req.userId);
+router.patch("/:id/read", async (req: Request, res: Response) => {
+  const user = await AppDataSource.manager.findOne(User, {
+    where: { id: req.userId },
+  });
   if (!user) {
     return res.status(401).end();
   }
-  const book = books.find(
-    (b) =>
-      b.id == parseInt(req.params.id) &&
-      b.user_id == user.id &&
-      b.deleted_at == null
-  );
+  const book = await AppDataSource.manager.findOne(Book, {
+    where: { id: parseInt(req.params.id), user },
+  });
   if (!book) {
     return res.status(404).end();
   }
   book.readings++;
-  res.status(200).json(book);
+  res.status(200).json(await AppDataSource.manager.save(book));
 });
 
 export default router;
