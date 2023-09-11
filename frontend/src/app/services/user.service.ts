@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of, tap } from 'rxjs';
+import { EMPTY, Observable, catchError, of, tap } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user';
@@ -20,14 +20,14 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  login(user: User): Observable<void> {
+  login(user: User): Observable<boolean> {
     this.user = user;
-    return of();
+    return of(true);
   }
 
-  logout(): Observable<void> {
+  logout(): Observable<boolean> {
     this.user = null;
-    return of();
+    return of(true);
   }
 
   getUsers(): Observable<User[]> {

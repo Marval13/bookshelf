@@ -22,13 +22,13 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/:id", async (req: Request, res: Response) => {
   const user = await AppDataSource.manager.findOne(User, {
     where: { id: req.userId },
-    relations: { books: true },
   });
   if (!user) {
     return res.status(401).end();
   }
   const book = await AppDataSource.manager.findOne(Book, {
     where: { id: parseInt(req.params.id), user },
+    relations: { user: true },
   });
   if (!book) {
     return res.status(404).end();
@@ -68,13 +68,13 @@ router.post("/", async (req: Request, res: Response) => {
 router.patch("/:id", async (req: Request, res: Response) => {
   const user = await AppDataSource.manager.findOne(User, {
     where: { id: req.userId },
-    relations: { books: true },
   });
   if (!user) {
     return res.status(401).end();
   }
   const book = await AppDataSource.manager.findOne(Book, {
     where: { id: parseInt(req.params.id), user },
+    relations: { user: true },
   });
   if (!book) {
     return res.status(404).end();
@@ -107,6 +107,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
   const book = await AppDataSource.manager.findOne(Book, {
     where: { id: parseInt(req.params.id), user },
+    relations: { user: true },
   });
   if (!book) {
     return res.status(404).end();
@@ -123,6 +124,7 @@ router.patch("/:id/read", async (req: Request, res: Response) => {
   }
   const book = await AppDataSource.manager.findOne(Book, {
     where: { id: parseInt(req.params.id), user },
+    relations: { user: true },
   });
   if (!book) {
     return res.status(404).end();

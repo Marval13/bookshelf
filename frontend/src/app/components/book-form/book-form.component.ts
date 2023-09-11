@@ -40,9 +40,6 @@ export class BookFormComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.getBook();
-    if (this.book) {
-      this.bookForm.patchValue(this.book);
-    }
   }
 
   private getBook() {
@@ -53,8 +50,10 @@ export class BookFormComponent implements OnInit {
     this.bookService.getBook(parseInt(bookId)).subscribe((book) => {
       if (!book) {
         this.router.navigate(['/book']);
+        return;
       }
       this.book = book;
+      this.bookForm.patchValue(book);
     });
   }
 
