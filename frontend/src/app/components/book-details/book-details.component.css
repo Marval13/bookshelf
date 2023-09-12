@@ -1,4 +1,4 @@
-.container {
+/* .container {
   text-align: center;
 }
 
@@ -15,9 +15,7 @@ th {
   padding: 3px;
 }
 
-th {
-  text-align: right;
-}
+
 
 td {
   text-align: left;
@@ -37,4 +35,8 @@ td {
 .buttons button {
   padding: 10px;
   margin: 5px;
+} */
+
+th {
+  text-align: right;
 }

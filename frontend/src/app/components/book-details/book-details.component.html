@@ -1,11 +1,11 @@
-<div class="container">
-  <div *ngIf="book">
-    <h2>{{ book.title }}</h2>
-    <table>
-      <tr>
+<div *ngIf="book">
+  <h2 class="text-center mb-3">{{ book.title }}</h2>
+  <table class="table table-borderless">
+    <tbody>
+      <!-- <tr>
         <th>Titolo</th>
         <td>{{ book.title }}</td>
-      </tr>
+      </tr> -->
       <tr>
         <th>Autore</th>
         <td>{{ book.author }}</td>
@@ -16,21 +16,22 @@
       </tr>
       <tr>
         <th>Trama</th>
-        <td>{{ book.summary }}</td>
+        <td style="white-space: pre-wrap">{{ book.summary }}</td>
+        <!-- <td [innerHTML]="book.summary"></td> -->
       </tr>
       <tr>
         <th>Letture</th>
-        <td>
-          {{ book.readings }}
-          <button class="button-plus" (click)="addReading()">+</button>
-        </td>
+        <td>{{ book.readings }}</td>
       </tr>
-    </table>
-    <div class="buttons">
-      <button routerLink="edit">Modifica</button>
-      <button (click)="deleteBook()">Elimina</button>
-    </div>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-center flex-sm-row flex-column">
+    <button class="btn btn-primary mx-3 my-1" (click)="addReading()">
+      Aggiungi lettura
+    </button>
+    <button routerLink="edit" class="btn btn-primary mx-3 my-1">Modifica</button>
+    <button (click)="deleteBook()" class="btn btn-danger mx-3 my-1">Elimina</button>
   </div>
-
-  <div *ngIf="!book">Libro non trovato</div>
 </div>
+
+<div *ngIf="!book">Libro non trovato</div>

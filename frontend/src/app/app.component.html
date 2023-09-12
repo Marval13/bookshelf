@@ -1,13 +1,13 @@
-<div class="container">
-  <header>
+<div class="main">
+  <nav>
     <h1><a routerLink="/">Bookshelf</a></h1>
     <span *ngIf="userName">
       <span>Ciao {{ userName }}! </span>
       <a (click)="logout()">(Logout)</a>
     </span>
-  </header>
-  <main>
+  </nav>
+  <main class="container">
     <router-outlet></router-outlet>
   </main>
-  <footer>made with ❤️ by Marval</footer>
+  <footer>❤️📘</footer>
 </div>

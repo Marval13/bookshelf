@@ -1,11 +1,11 @@
-<div class="container">
-  <h2>Login</h2>
-  <ul>
-    <li *ngFor="let user of users">
-      <button (click)="login(user)">
-        <strong>{{ user.name }} {{ user.surname }} </strong>
-        <em>({{ user.email }})</em>
-      </button>
-    </li>
-  </ul>
+<h2 class="text-center mb-3">Login</h2>
+<div class="list-group">
+  <button
+    *ngFor="let user of users"
+    class="list-group-item list-group-item-action"
+    (click)="login(user)"
+  >
+    <strong>{{ user.name }} {{ user.surname }} </strong>
+    <em>({{ user.email }})</em>
+  </button>
 </div>

@@ -23,7 +23,11 @@ export class BookFormComponent implements OnInit {
   bookForm = new FormGroup({
     title: new FormControl('', Validators.required),
     author: new FormControl('', Validators.required),
-    isbn: new FormControl('', Validators.required),
+    isbn: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+      Validators.maxLength(13),
+    ]),
     summary: new FormControl(''),
   });
 
