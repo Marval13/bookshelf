@@ -1,3 +1,0 @@
-.ng-invalid:not(form).ng-touched:not(form) {
-  border-color: var(--bs-danger);
-}

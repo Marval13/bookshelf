@@ -1,13 +1,18 @@
-<div class="main">
-  <nav>
+<div class="d-flex flex-column" style="min-height: 100%">
+  <nav class="d-flex justify-content-between align-items-center px-4">
     <h1><a routerLink="/">Bookshelf</a></h1>
     <span *ngIf="userName">
       <span>Ciao {{ userName }}! </span>
       <a (click)="logout()">(Logout)</a>
     </span>
   </nav>
-  <main class="container">
+  <main class="container p-4" style="flex: auto; max-width: 600px">
     <router-outlet></router-outlet>
   </main>
-  <footer>❤️📘</footer>
+  <footer
+    class="d-flex justify-content-center align-items-center"
+    style="background-color: #eee; height: 70px"
+  >
+    ❤️📘
+  </footer>
 </div>
