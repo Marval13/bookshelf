@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
+import { baseUrl } from '../constants/constants';
 import { User } from '../interfaces/user';
 
 @Injectable({
@@ -15,8 +16,6 @@ export class UserService {
   //   email: 'dbaro13@gmail.com',
   // };
 
-  private baseUrl = 'http://localhost:8080';
-
   constructor(private http: HttpClient) {}
 
   login(user: User): Observable<boolean> {
@@ -30,7 +29,7 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}/user`).pipe(
+    return this.http.get<User[]>(`${baseUrl}/user`).pipe(
       // tap(() => console.log('fetched users')),
       catchError((err) => {
         console.error('error fetching users', err);
