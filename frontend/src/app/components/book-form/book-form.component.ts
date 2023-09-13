@@ -6,13 +6,6 @@ import { Book } from 'src/app/interfaces/book';
 import { BookService } from 'src/app/services/book.service';
 import { UserService } from 'src/app/services/user.service';
 
-interface BookData {
-  title: string;
-  author: string;
-  isbn: string;
-  summary?: string;
-}
-
 @Component({
   selector: 'app-book-form',
   templateUrl: './book-form.component.html',
@@ -20,6 +13,7 @@ interface BookData {
 })
 export class BookFormComponent implements OnInit {
   book?: Book;
+  loaded = false;
   bookForm = new FormGroup({
     title: new FormControl('', Validators.required),
     author: new FormControl('', Validators.required),
@@ -49,6 +43,7 @@ export class BookFormComponent implements OnInit {
   private getBook() {
     const bookId = this.route.snapshot.paramMap.get('id');
     if (!bookId) {
+      this.loaded = true;
       return;
     }
     this.bookService.getBook(parseInt(bookId)).subscribe((book) => {
@@ -58,6 +53,7 @@ export class BookFormComponent implements OnInit {
       }
       this.book = book;
       this.bookForm.patchValue(book);
+      this.loaded = true;
     });
   }
 

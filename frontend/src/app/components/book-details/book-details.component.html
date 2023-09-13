@@ -1,11 +1,13 @@
+<div *ngIf="!book" class="text-center">
+  <div class="spinner-border text-primary m-5" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
 <div *ngIf="book">
   <h2 class="text-center mb-3">{{ book.title }}</h2>
   <table class="table table-borderless">
     <tbody>
-      <!-- <tr>
-        <th>Titolo</th>
-        <td>{{ book.title }}</td>
-      </tr> -->
       <tr>
         <th>Autore</th>
         <td>{{ book.author }}</td>
@@ -17,7 +19,6 @@
       <tr>
         <th>Trama</th>
         <td style="white-space: pre-wrap">{{ book.summary }}</td>
-        <!-- <td [innerHTML]="book.summary"></td> -->
       </tr>
       <tr>
         <th>Letture</th>
@@ -29,8 +30,12 @@
     <button class="btn btn-primary mx-3 my-1" (click)="addReading()">
       Aggiungi lettura
     </button>
-    <button routerLink="edit" class="btn btn-primary mx-3 my-1">Modifica</button>
-    <button (click)="deleteBook()" class="btn btn-danger mx-3 my-1">Elimina</button>
+    <button routerLink="edit" class="btn btn-primary mx-3 my-1">
+      Modifica
+    </button>
+    <button (click)="deleteBook()" class="btn btn-danger mx-3 my-1">
+      Elimina
+    </button>
   </div>
 </div>
 

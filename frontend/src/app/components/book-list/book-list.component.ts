@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class BookListComponent implements OnInit {
   books: Book[] = [];
+  loaded = false;
 
   constructor(
     private bookService: BookService,
@@ -28,6 +29,7 @@ export class BookListComponent implements OnInit {
   private getBooks() {
     this.bookService.getBooks().subscribe((books) => {
       this.books = books;
+      this.loaded = true;
     });
   }
 }

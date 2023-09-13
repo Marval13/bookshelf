@@ -1,18 +1,26 @@
 <h2 class="text-center mb-3">I tuoi libri</h2>
 
-<div class="list-group">
-  <a
-    *ngFor="let book of books"
-    class="list-group-item list-group-item-action"
-    routerLink="/book/{{ book.id }}"
-  >
-    <strong>{{ book.title }} </strong>
-    <em>({{ book.author }})</em>
-  </a>
+<div *ngIf="!loaded" class="text-center">
+  <div class="spinner-border text-primary m-5" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
 </div>
 
-<div class="d-flex justify-content-center">
-  <button routerLink="/book/new" class="btn btn-primary mt-3">
-    Nuovo libro
-  </button>
+<div *ngIf="loaded">
+  <div class="list-group">
+    <a
+      *ngFor="let book of books"
+      class="list-group-item list-group-item-action"
+      routerLink="/book/{{ book.id }}"
+    >
+      <strong>{{ book.title }} </strong>
+      <em>({{ book.author }})</em>
+    </a>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <button routerLink="/book/new" class="btn btn-primary mt-3">
+      Nuovo libro
+    </button>
+  </div>
 </div>

@@ -10,12 +10,14 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit {
   users: User[] = [];
+  loaded = false;
 
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
+      this.loaded = true;
     });
   }
 
