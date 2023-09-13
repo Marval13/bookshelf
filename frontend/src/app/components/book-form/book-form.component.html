@@ -48,16 +48,28 @@
         required
       />
       <div
-        *ngIf="bookForm.get('isbn')?.errors?.['required']"
+        *ngIf="bookForm.get('isbn')?.hasError('required')"
         class="invalid-feedback"
       >
         Inserire l'ISBN.
       </div>
       <div
-        *ngIf="!bookForm.get('isbn')?.errors?.['required']"
+        *ngIf="
+          !bookForm.get('isbn')?.hasError('required') &&
+          bookForm.get('isbn')?.hasError('isbnLength')
+        "
         class="invalid-feedback"
       >
-        L'ISBN deve contenere tra i 10 e i 13 caratteri.
+        L'ISBN deve contenere 10 o 13 caratteri.
+      </div>
+      <div
+        *ngIf="
+          !bookForm.get('isbn')?.hasError('required') &&
+          bookForm.get('isbn')?.hasError('isbnInvalid')
+        "
+        class="invalid-feedback"
+      >
+        L'ISBN è invalido.
       </div>
     </div>
     <div class="mb-3">

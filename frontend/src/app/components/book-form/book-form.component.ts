@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from 'src/app/interfaces/book';
 import { BookService } from 'src/app/services/book.service';
 import { UserService } from 'src/app/services/user.service';
+import isbnValidator from 'src/app/validators/isbn.validator';
 
 @Component({
   selector: 'app-book-form',
@@ -17,11 +18,7 @@ export class BookFormComponent implements OnInit {
   bookForm = new FormGroup({
     title: new FormControl('', Validators.required),
     author: new FormControl('', Validators.required),
-    isbn: new FormControl('', [
-      Validators.required,
-      Validators.minLength(10),
-      Validators.maxLength(13),
-    ]),
+    isbn: new FormControl('', [Validators.required, isbnValidator]),
     summary: new FormControl(''),
   });
 
