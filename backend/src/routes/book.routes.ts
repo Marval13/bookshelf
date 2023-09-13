@@ -4,6 +4,7 @@ import { AppDataSource } from "../db/data-source";
 import { Book } from "../db/entities/Book";
 
 import { User } from "../db/entities/User";
+import isIsbnValid from "../utils/isbn.validator";
 import logger from "../utils/logger";
 
 const router = Router();
@@ -46,15 +47,18 @@ router.post("/", async (req: Request, res: Response) => {
   }
   const title = req.body.title;
   if (!title) {
-    return res.status(400).end();
+    return res.status(400).json({ error: "missing title" });
   }
   const author = req.body.author;
   if (!author) {
-    return res.status(400).end();
+    return res.status(400).json({ error: "missing author" });
   }
   const isbn = req.body.isbn;
   if (!isbn) {
-    return res.status(400).end();
+    return res.status(400).json({ error: "missing isbn" });
+  }
+  if (!isIsbnValid(isbn)) {
+    return res.status(400).json({ error: "invalid isbn" });
   }
 
   const book = new Book();
