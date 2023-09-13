@@ -2,8 +2,9 @@
   <nav class="d-flex justify-content-between align-items-center px-4">
     <h1><a routerLink="/">Bookshelf</a></h1>
     <span *ngIf="userName">
-      <span>Ciao {{ userName }}! </span>
-      <a (click)="logout()">(Logout)</a>
+      <a routerLink="/book" class="mx-3">I miei libri</a>
+      <a (click)="logout()" class="mx-3">Logout</a>
+      <!-- <span class="mx-3">Ciao {{ userName }}!</span> -->
     </span>
   </nav>
   <main class="container p-4" style="flex: auto; max-width: 600px">
