@@ -13,6 +13,8 @@ services:
       db:
         condition: service_healthy
     restart: always
+    volumes:
+      - ./logs:/app/logs
     networks:
       - net
 

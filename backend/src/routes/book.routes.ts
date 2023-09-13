@@ -4,6 +4,7 @@ import { AppDataSource } from "../db/data-source";
 import { Book } from "../db/entities/Book";
 
 import { User } from "../db/entities/User";
+import logger from "../utils/logger";
 
 const router = Router();
 
@@ -62,7 +63,12 @@ router.post("/", async (req: Request, res: Response) => {
   book.isbn = isbn;
   book.summary = req.body.summary ?? "";
   book.user = user;
-  res.status(200).json(await AppDataSource.manager.save(book));
+  try {
+    res.status(200).json(await AppDataSource.manager.save(book));
+  } catch (err) {
+    logger.error(err);
+    res.status(500).end();
+  }
 });
 
 router.patch("/:id", async (req: Request, res: Response) => {
@@ -95,7 +101,12 @@ router.patch("/:id", async (req: Request, res: Response) => {
   if (summary) {
     book.summary = summary;
   }
-  res.status(200).json(await AppDataSource.manager.save(book));
+  try {
+    res.status(200).json(await AppDataSource.manager.save(book));
+  } catch (err) {
+    logger.error(err);
+    res.status(500).end();
+  }
 });
 
 router.delete("/:id", async (req: Request, res: Response) => {
@@ -130,7 +141,12 @@ router.patch("/:id/read", async (req: Request, res: Response) => {
     return res.status(404).end();
   }
   book.readings++;
-  res.status(200).json(await AppDataSource.manager.save(book));
+  try {
+    res.status(200).json(await AppDataSource.manager.save(book));
+  } catch (err) {
+    logger.error(err);
+    res.status(500).end();
+  }
 });
 
 export default router;
