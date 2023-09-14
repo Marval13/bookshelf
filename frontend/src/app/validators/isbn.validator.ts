@@ -17,7 +17,7 @@ const isbnValidator: ValidatorFn = (
   if (value.length == 13) {
     return value
       .split('')
-      .map((ch, i) => parseInt(ch) * (i % 2 ? 1 : 3))
+      .map((ch, i) => parseInt(ch) * (i % 2 ? 3 : 1))
       .reduce((sum, n) => sum + n, 0) % 10
       ? { isbnInvalid: true }
       : null;
