@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
-import { baseUrl } from '../constants/constants';
+// import { environment.baseUrl } from '../constants/constants';
+import { environment } from 'src/environments/environment';
 import { Book } from '../interfaces/book';
 import { UserService } from './user.service';
 
@@ -13,7 +14,7 @@ export class BookService {
 
   getBooks(): Observable<Book[]> {
     return this.http
-      .get<Book[]>(`${baseUrl}/book/`, {
+      .get<Book[]>(`${environment.baseUrl}/book/`, {
         headers: { Authorization: `Bearer ${this.userService.user?.id}` },
       })
       .pipe(
@@ -27,7 +28,7 @@ export class BookService {
 
   getBook(bookId: number): Observable<Book | undefined> {
     return this.http
-      .get<Book>(`${baseUrl}/book/${bookId}`, {
+      .get<Book>(`${environment.baseUrl}/book/${bookId}`, {
         headers: { Authorization: `Bearer ${this.userService.user?.id}` },
       })
       .pipe(
@@ -47,7 +48,7 @@ export class BookService {
   ): Observable<Book | undefined> {
     return this.http
       .post<Book>(
-        `${baseUrl}/book/`,
+        `${environment.baseUrl}/book/`,
         { title, author, isbn, summary },
         {
           headers: { Authorization: `Bearer ${this.userService.user?.id}` },
@@ -71,7 +72,7 @@ export class BookService {
   ): Observable<Book | undefined> {
     return this.http
       .patch<Book>(
-        `${baseUrl}/book/${bookId}`,
+        `${environment.baseUrl}/book/${bookId}`,
         { title, author, isbn, summary },
         {
           headers: { Authorization: `Bearer ${this.userService.user?.id}` },
@@ -88,7 +89,7 @@ export class BookService {
 
   deleteBook(bookId: number): Observable<Book | undefined> {
     return this.http
-      .delete<Book>(`${baseUrl}/book/${bookId}`, {
+      .delete<Book>(`${environment.baseUrl}/book/${bookId}`, {
         headers: { Authorization: `Bearer ${this.userService.user?.id}` },
       })
       .pipe(
@@ -103,7 +104,7 @@ export class BookService {
   addReading(bookId: number): Observable<Book | undefined> {
     return this.http
       .patch<Book>(
-        `${baseUrl}/book/${bookId}/read`,
+        `${environment.baseUrl}/book/${bookId}/read`,
         {},
         {
           headers: { Authorization: `Bearer ${this.userService.user?.id}` },

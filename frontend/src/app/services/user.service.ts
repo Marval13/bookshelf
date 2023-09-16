@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
-import { baseUrl } from '../constants/constants';
+// import { baseUrl } from '../constants/constants';
+import { environment } from 'src/environments/environment';
 import { User } from '../interfaces/user';
 
 @Injectable({
@@ -29,7 +30,7 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${baseUrl}/user`).pipe(
+    return this.http.get<User[]>(`${environment.baseUrl}/user`).pipe(
       // tap(() => console.log('fetched users')),
       catchError((err) => {
         console.error('error fetching users', err);
