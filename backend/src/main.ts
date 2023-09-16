@@ -30,6 +30,10 @@ app.use("/user", userRouter);
 app.use("/book", tokenGuard);
 app.use("/book", bookRouter);
 
+app.use((req, res, next) => {
+  res.status(404).end();
+});
+
 AppDataSource.initialize()
   .then(async () => {
     if (process.env.DEMODATA) {
